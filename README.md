@@ -1,6 +1,8 @@
 # PENGUIN
 Polar ENgagement through GUided INquiry. Computational Guided Inquiry modules for polar research and data
 
+Please see: https://github.com/penguin-code/modules or https://serc.carleton.edu/penguin/index.html for the most up-to-date modules. 
+
 These educational modules are Computational Guided Inquiry (CGI) modules. In computational guided inquiry, the instructor guides the students in learning through the use of a computational tool; here an Excel Workbook or a Jupyter Notebook. Folder within this directory contain a complete module. The modules are freely available to use under the following conditions:
 
 1) If you would like to use this module, please contact Penny Rowe (penny@nwra.com). We would like to keep track of how many instructors are using the module. We can also provide help if needed.
