@@ -1,0 +1,6 @@
+# Ignore notebooks being tested
+/notebooks/
+
+#ignore files used in notebooks being tested
+/input/
+#/input/*
