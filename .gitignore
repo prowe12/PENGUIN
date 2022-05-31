@@ -1,1 +1,5 @@
+# Ignore notebooks being tested
+/arctic_ice_computer_science/notebooks/
+
+#ignore files used in notebooks being tested
 /input/
