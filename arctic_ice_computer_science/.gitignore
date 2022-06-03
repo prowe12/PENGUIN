@@ -2,5 +2,9 @@
 /notebooks/
 
 #ignore files used in notebooks being tested
-/input/
+/input/my-images/
 #/input/*
+
+#
+/.ipynb_checkpoints/
+/workspace.code-workspace
