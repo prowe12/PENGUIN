@@ -1,10 +1,11 @@
 
 
+# Ice images (which students will download)
+my-images/myImage*
+
 # Python checkpoints
 .ipynb_checkpoints
 
-# VS code files
-workspace.code-workspace
 
 # Compiled source #
 ###################
