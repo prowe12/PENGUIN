@@ -183,25 +183,32 @@ def clean_climate_modeling(prm):
     return pd.concat(res)
 
 
-def clean(prm):
+def clean(files, age, know, qpre, qpost):
     """
     Return a dataframe containing selected columns from cleaned and matched
     pre and post survey files
     @param prm  Parameters for the survey, specified in a param file (class)
     @returns pandas dataframe
-    """
+
     # Columns to use: Age column (18 or over?), knowledge questions, and
     # identifying questions (to match pre/post tests)
     col_pre = [prm.AGE] + list(prm.KNOW.keys()) + list(prm.QPRE.keys())
     col_post = [prm.AGE] + list(prm.KNOW.keys()) + list(prm.QPOST.keys())
+    files = prm.FILES
+    """
+
+    # Columns to use: Age column (18 or over?), knowledge questions, and
+    # identifying questions (to match pre/post tests)
+    col_pre = [age] + list(know.keys()) + list(qpre.keys())
+    col_post = [age] + list(know.keys()) + list(qpost.keys())
 
     # Load and clean
     res = []
-    for fname in prm.FILES:
+    for fname in files:
         print(fname["pre_file"])
         # Get the pre and post
-        pre = clean_single(fname["pre_file"], col_pre, prm.AGE, prm.QPRE)
-        post = clean_single(fname["post_file"], col_post, prm.AGE, prm.QPOST)
+        pre = clean_single(fname["pre_file"], col_pre, age, qpre)
+        post = clean_single(fname["post_file"], col_post, age, qpost)
         # Merge pre and post and append to list of results
         res.append(
             pd.merge(pre, post, on=["sid", "month", "day"], how="inner")

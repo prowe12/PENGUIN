@@ -9,7 +9,7 @@ Created on Mon Feb 27 16:44:31 2023
 from survey_results_attitudes_individ import plot_before_after
 import path_params
 
-savefigs = True
+savefigs = False
 
 # Directories and files
 maindir = path_params.DATA_DIR

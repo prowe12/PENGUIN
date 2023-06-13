@@ -15,7 +15,7 @@ except:
 
     raise ValueError()
 
-# Directories and files
+# Files containing the survey data for students who took the module
 FILES = [
     {
         "pre_file": MAINDIR + "results_2021_fall/StatsPreSurvey.xlsx",
@@ -31,24 +31,38 @@ FILES = [
     },
 ]
 
+# Files containing the survey data for comparison classes - that is,
+# surveys of students who did not take the module
 COMPFILES = [
     {
         "pre_file": MAINDIR + "results_2021_fall/StatsCompPreSurvey.xlsx",
         "post_file": MAINDIR + "results_2021_fall/StatsCompPostSurvey.xlsx",
     },
 ]
-# TODO: replace this above
-#         "post_file": MAINDIR + "results_2021_fall/StatsCompPostSurvey.xlsx",
 
 
+# Key/values to columns used to match pre and post surveys:
+# sid: digits from student ID
+# month:  Student reported birth month
+# day:  Student reported birth day
 QPRE = {"Q20": "sid", "Q21": "month", "Q22": "day"}
 QPOST = {"Q38": "sid", "Q39": "month", "Q40": "day"}
 
+# AS above but for comparison-class surveys
 QPRE_COMP = {"Q20": "sid", "Q21": "month", "Q22": "day"}
 QPOST_COMP = {"Q20": "sid", "Q21": "month", "Q22": "day"}
 
+# Key for question with student age
 AGE = "Q1"
 
+# Key/values for nowledge quesitons
+# Q#:  Key, which corresponds to column name for the question.
+# It is assigned to another dictionary, with:
+#   title: short title for survey question
+#   text: long statement of survey question
+#   options: Survey question possible answers
+#   labels: Labels to use on figures
+#   icorrect: Index to correct answer, from list of options or labels
 KNOW = {
     "Q3": {
         "title": "Prediction outside the range",
@@ -307,6 +321,7 @@ KNOW = {
     },
 }
 
+#
 DEMO = {
     "Q33": {
         "title": "STEM major?",
@@ -378,6 +393,8 @@ DEMO = {
     },
 }
 
+# Key/values below map questions numbers to abbreviated questions
+# for polar Questions
 POLARQS = {
     "Q5": "Fastest-warming region",
     "Q7": "Reconstructing past temps",
@@ -389,6 +406,8 @@ POLARQS = {
     "Q19": "Polar Amp. primary cause",
 }
 
+# Key/values below map questions numbers to abbreviated questions
+# for stastics Questions
 STATSQS = {
     "Q15": "Neg lin assoc",
     "Q13": "No/mod/perf lin. assoc",
@@ -399,6 +418,7 @@ STATSQS = {
 }
 
 
+# EXTRA STUFF
 #    "Q9": {
 #        "text": "The graph below shows how temperature has changed with CO2 at an Arctic research station, in the modern era globally, as well as in the ice core record. The linear relationship between temperature and CO2 is seen to vary, but the correlation is positive for all three. Choose the best descriptions for the scatterplots labelled a, b, and c.",
 

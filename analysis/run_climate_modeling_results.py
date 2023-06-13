@@ -18,4 +18,4 @@ from clean import clean_climate_modeling
 interv = clean_climate_modeling(param)
 
 print_stats_cm(interv)
-# make_all_plots_cm(interv, True, path_params.OUT_DIR)
+make_all_plots_cm(interv, True, path_params.OUT_DIR)

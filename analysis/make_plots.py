@@ -428,23 +428,6 @@ def make_all_plots_cm(interv, savefigs: bool = False, outdir: str = ""):
     @param outdir  Directory to save the figures to
     """
     names = list(cm_param.KNOW.keys())
-    # # Choose the order of the questions
-    # names = [
-    #     "Q5",
-    #     "Q7",
-    #     "Q8",
-    #     "Q6",
-    #     "Q10",
-    #     "Q11",
-    #     "Q12",
-    #     "Q19",
-    #     "Q15",
-    #     "Q13",
-    #     "Q4",
-    #     "Q3",
-    #     "Q14",
-    #     "Q16",
-    # ]
 
     plt.close("all")
     for i in range(1, 5):
