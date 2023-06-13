@@ -20,6 +20,7 @@ from clean import clean
 interv = clean(prm.FILES, prm.AGE, prm.KNOW, prm.QPRE, prm.QPOST)
 comp = clean(prm.COMPFILES, prm.AGE, prm.KNOW, prm.QPRE_COMP, prm.QPOST_COMP)
 
+# Create figures and tables for paper
 make_demo_plots(interv, False, path_params.OUT_DIR)
 print_stats(interv, comp)
 make_all_plots(interv, comp, False, path_params.OUT_DIR)
