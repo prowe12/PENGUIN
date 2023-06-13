@@ -31,12 +31,16 @@ def get_num_correct(in_series, corr: str):
     @param corr  The exact correct answer
     """
     valcounts = in_series.value_counts(dropna=True)
-    # QC: make sure correct is in the set of answers
-    if corr not in valcounts.keys():
-        raise ValueError("No student gave the correct response")
     tot = sum(valcounts.values)
-    # sum([count for name, count in valcounts.items()])
-    ncorr = int(valcounts[corr])
+    # QC: make sure correct is in the set of answers
+    #     actually, allow the possibility that no student got the
+    #     correct answer (this can happen, esp on the pre-test)
+    if corr not in valcounts.keys():
+        # raise ValueError("No student gave the correct response")
+        # sum([count for name, count in valcounts.items()])
+        ncorr = 0
+    else:
+        ncorr = int(valcounts[corr])
     return ncorr, tot - ncorr
 
 
@@ -72,7 +76,10 @@ def get_fisher(bef_corr: int, bef_wrong: int, aft_corr: int, aft_wrong: int):
     ]
     fish = stats.fisher_exact(data)
 
-    if fish[0] >= 10:
+    # The odds ratio can be infinite, in which case we canot use round
+    if not np.isfinite(fish[0]):
+        odds = fish[0]
+    elif fish[0] >= 10:
         odds = round(fish[0])
     elif fish[0] >= 1:
         odds = round(fish[0], 1)
@@ -136,7 +143,8 @@ def getstats(dfm, name: str, corr: str):
 
     # Get remaining outputs
     nstudents = bef_corr + bef_wrong
-    change = round(aft_corr - bef_corr)
+    # change = round(aft_corr - bef_corr)
+    change = round((aft_corr - bef_corr) / nstudents * 100)
     before_pc = round(100 * bef_corr / (bef_corr + bef_wrong))
     after_pc = round(100 * aft_corr / (aft_corr + aft_wrong))
 

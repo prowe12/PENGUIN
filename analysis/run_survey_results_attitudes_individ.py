@@ -9,6 +9,8 @@ Created on Mon Feb 27 16:44:31 2023
 from survey_results_attitudes_individ import plot_before_after
 import path_params
 
+savefigs = True
+
 # Directories and files
 maindir = path_params.DATA_DIR
 outdir = maindir + "analysis/supplemental/"
@@ -41,7 +43,7 @@ befaft = {
         "qaft": "Q27_2",
     },
 }
-plot_before_after(befaft, data_dir + datafile, outdir + outfile)
+plot_before_after(befaft, data_dir + datafile, outdir + outfile, savefigs)
 
 # Spring 2022 Stats
 data_dir = maindir + "results_2022_spring/"
@@ -69,7 +71,7 @@ befaft = {
         "qaft": "Q27_2",
     },
 }
-plot_before_after(befaft, data_dir + datafile, outdir + outfile)
+plot_before_after(befaft, data_dir + datafile, outdir + outfile, savefigs)
 
 # Fall 2022 Stats
 data_dir = maindir + "results_2022_fall/"
@@ -97,7 +99,7 @@ befaft = {
         "qaft": "Q27_2",
     },
 }
-plot_before_after(befaft, data_dir + datafile, outdir + outfile)
+plot_before_after(befaft, data_dir + datafile, outdir + outfile, savefigs)
 
 # Fall 2021 modeling
 data_dir = maindir + "results_2021_fall/"
@@ -117,7 +119,7 @@ befaft = {
         "qaft": "Q14_2",
     },
 }
-plot_before_after(befaft, data_dir + datafile, outdir + outfile)
+plot_before_after(befaft, data_dir + datafile, outdir + outfile, savefigs)
 
 # Fall 2022 modeling
 data_dir = maindir + "results_2022_fall/"
@@ -136,4 +138,4 @@ befaft = {
         "qaft": "Q12_2",
     },
 }
-plot_before_after(befaft, data_dir + datafile, outdir + outfile)
+plot_before_after(befaft, data_dir + datafile, outdir + outfile, savefigs)

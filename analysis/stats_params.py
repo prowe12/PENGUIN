@@ -307,6 +307,77 @@ KNOW = {
     },
 }
 
+DEMO = {
+    "Q33": {
+        "title": "STEM major?",
+        "text": "Are you a science, technology, engineering or math major?",
+        "options": [
+            "Yes",
+            "No",
+            "Maybe",
+        ],
+        "labels": [
+            "Yes",
+            "No",
+            "Maybe",
+        ],
+    },
+    "Q34": {
+        "title": "Considering STEM?",
+        "text": "Are you considering a science, technology, engineering, or math major?",
+        "options": [
+            "Yes",
+            "No",
+            "Maybe",
+        ],
+        "labels": [
+            "Yes",
+            "No",
+            "Maybe",
+        ],
+    },
+    "Q35": {
+        "title": "Gender Identity",
+        "text": "What is your gender identity? (Check all that apply)",
+        "options": [
+            "Woman",
+            "Man",
+            "Other",
+        ],
+        "labels": [
+            "Woman",
+            "Man",
+            "Other",
+        ],
+    },
+    "Q36": {
+        "title": "Race/Ethnicity",
+        "text": "What is your race/ethnicity? (Check all that apply)",
+        "options": [
+            "White",
+            "American Indian or Alaska Native",
+            "Asian",
+            "Filipino/a",
+            "Pacific Islander",
+            "Multiple Ethnicities",
+            "African American/Black",
+            "Hispanic/Latino/a",
+            "Prefer not to say",
+        ],
+        "labels": [
+            "White",
+            "American Indian or Alaska Native",
+            "Asian",
+            "Filipino/a",
+            "Pacific Islander",
+            "Multiple Ethnicities",
+            "African American/Black",
+            "Hispanic/Latino/a",
+            "Prefer not to say",
+        ],
+    },
+}
+
 POLARQS = {
     "Q5": "Fastest-warming region",
     "Q7": "Reconstructing past temps",

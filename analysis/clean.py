@@ -91,6 +91,7 @@ def student_ids_unique(dfo, sid: str):
             dfsid += dfo[sid0]
 
     if not dfsid.is_unique:
+        print(dfsid)
         raise ValueError("All partial IDs are not unique!")
 
 
@@ -127,6 +128,59 @@ def clean_single(fname: str, col: list[str], age: str, names: dict):
     student_ids_unique(dfo, ["sid", "month", "day"])
     remove_symbols(dfo)  # Done in place
     return dfo
+
+
+def clean_single_cm(fname: str, age: str, names: dict):
+    """
+    Return dataframe from a survey file after cleaning
+    @param  fname  File to load in
+    @param col  Columns to keep
+    @param age  Header for column giving whether over 18
+    @param  names  Identifying questions (for matching pre and post)
+    @returns pandas dataframe
+    """
+    cols = [age] + list(names.keys())
+    dfo = load(fname)
+    dfo = getcols(dfo, cols)
+    rename(dfo, names)
+    dfo = filter_out_minors(dfo, age)
+    dfo = clean_ids(dfo, "sid")
+    dfo = sort_by_id(dfo, "sid")
+    student_ids_unique(dfo, ["sid", "month", "day"])
+    remove_symbols(dfo)  # Done in place
+    return dfo
+
+
+def clean_climate_modeling(prm):
+    """
+    Return a dataframe containing selected columns from cleaned and matched
+    pre and post survey files
+    @param prm  Parameters for the survey, specified in a param file (class)
+    @returns pandas dataframe
+    """
+
+    # Columns to use: Age column (18 or over?), knowledge questions, and
+    # identifying questions (to match pre/post tests)
+    # col_pre = [prm.AGE] + list(group["pre"].values())
+    # col_post = [prm.AGE] + list(group["pre"].values())
+
+    # Load and clean
+    res = []
+    for group in prm.DATA:
+
+        # Get the pre and post
+        print(group["pre_file"])
+        pre = clean_single_cm(group["pre_file"], prm.AGE, group["pre"])
+        print(group["post_file"])
+        post = clean_single_cm(group["post_file"], prm.AGE, group["post"])
+
+        # Merge pre and post and append to list of results
+        res.append(
+            pd.merge(pre, post, on=["sid", "month", "day"], how="inner")
+        )
+
+    # Merge into one big dataframe and return
+    return pd.concat(res)
 
 
 def clean(prm):

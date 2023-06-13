@@ -14,20 +14,33 @@ from plot_resources import set_colors, add_percentages, set_labels
 from clean import load, remove_symbols
 
 
-def plot_before_after(befaft: dict, datafile: str, outfilepfx: str):
+def plot_before_after(
+    befaft: dict, datafile: str, outfilepfx: str, save_figs=False
+):
     """
     Make plots that compare before and after
     @params befaft  Information about the pandas array
     @params datafile  The full path to the input data file
     @params outfilepfx  Directory + filename prefix for saving the figure
     """
-    # Labels
-    comfort_labels = [
+
+    # Answers
+    comfort_ans = [
         "Very Uncomfortable",
         "Somewhat Uncomfortable",
         "Neutral",
         "Somewhat Comfortable",
         "Very Comfortable",
+        "Dont Know",
+    ]
+
+    # Labels
+    comfort_labels = [
+        "V. Uncomfortable",
+        "S. Uncomfortable",
+        "Neutral",
+        "S. Comfortable",
+        "V. Comfortable",
         "Dont Know",
     ]
 
@@ -51,15 +64,12 @@ def plot_before_after(befaft: dict, datafile: str, outfilepfx: str):
 
     rating_labels = ["Very Poor", "Poor", "Fair", "Good", "Excellent"]
 
-    # Flags: TODO read in
-    save_figs = True  # whether to save figures
-
     # The data
     org = {
         "cs": {
             "qbef": "Q20_1",
             "qaft": "Q20_2",
-            "ans": comfort_labels,
+            "ans": comfort_ans,
             "labels": comfort_labels,
             "title": "Comfort with Rstudio",
         },
@@ -159,4 +169,5 @@ def plot_before_after(befaft: dict, datafile: str, outfilepfx: str):
         )
 
         if save_figs:
+            plt.savefig(outfilepfx + name + ".png")
             plt.savefig(outfilepfx + name + ".eps")
