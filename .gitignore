@@ -4,6 +4,7 @@ path_params.py
 # Python code #
 ###############
 __pycache__
+.ipynb_checkpoints
 
 # Compiled source #
 ###################
