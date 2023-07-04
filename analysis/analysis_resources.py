@@ -151,6 +151,36 @@ def getstats(dfm, name: str, corr: str):
     return before_pc, after_pc, change, nstudents, odds, pval
 
 
+def get_vals_in(in_series, ans_choices: list[str]):
+    """
+    Return cleaned responses for a given survey question
+    @param in_series  Survey responses for a question(pandas core series)
+    @param ans_choices  Allowed responses
+    @returns  The cleaned responses (pandas series)
+    """
+    from collections import defaultdict
+
+    nrace = defaultdict(int)
+    out_series = {}
+    ntot = 0.0
+    for response in in_series:
+        ntot += 1.0
+        resplist = response.split(",")
+        for race in ans_choices:
+            if race in resplist:
+                nrace[race] += 1
+
+    # for key, value in nrace.items():
+    #     out_series[key] = 100 * value / ntot
+
+    # percentages = 100 * in_series.value_counts(dropna=True, normalize=True)
+    out_series = pd.Series([], dtype=pd.StringDtype())
+    for index in ans_choices:
+        out_series[index] = 100 * nrace[index] / ntot
+
+    return out_series
+
+
 def get_vals(in_series, ans_choices: list[str]):
     """
     Return cleaned responses for a given survey question
@@ -162,10 +192,10 @@ def get_vals(in_series, ans_choices: list[str]):
     # QC: make sure expected and actual answers match
     if not np.all([x in ans_choices for x in percentages.keys()]):
         ind = [x in ans_choices for x in percentages.keys()]
-        # ind = [x == False for x in ind]
+        ind = [x == False for x in ind]
         print("\n\nAnswer choices:")
         print(ans_choices)
-        print("\nStudent answer that is not in answer choices:")
+        print("\nStudent answers that are not in answer choices:")
         print(np.array(percentages.keys())[ind])
         print("\n\n")
         raise ValueError("A student answer was not an expected response!")

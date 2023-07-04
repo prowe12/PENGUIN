@@ -19,7 +19,7 @@ except:
 FILES = [
     {
         "pre_file": MAINDIR + "results_2021_fall/StatsPreSurvey.xlsx",
-        "post_file": MAINDIR + "results_2021_fall/StatsPostSurvey.xlsx",
+        "post_file": MAINDIR + "results_2021_fall/StatsPostSurvey_mod.xlsx",
     },
     {
         "pre_file": MAINDIR + "results_2022_spring/StatsPreSurvey.xlsx",
@@ -321,7 +321,7 @@ KNOW = {
     },
 }
 
-#
+# Demographic questions
 DEMO = {
     "Q33": {
         "title": "STEM major?",
@@ -335,6 +335,26 @@ DEMO = {
             "Yes",
             "No",
             "Maybe",
+        ],
+    },
+    "Q21": {
+        "title": "Polar exposure",
+        "text": "BEFORE this module, how much exposure did you have to polar research?",
+        "options": [
+            "None",
+            "A little",
+            "Some",
+            "A fair amount",
+            "A great deal",
+            "Don’t know",
+        ],
+        "labels": [
+            "None",
+            "A little",
+            "Some",
+            "A fair amount",
+            "A great deal",
+            "Don’t know",
         ],
     },
     "Q34": {
@@ -357,12 +377,16 @@ DEMO = {
         "options": [
             "Woman",
             "Man",
-            "Other",
+            "Not listed",
+            "Woman,Transgender",
+            "Man,Transgender",
         ],
         "labels": [
             "Woman",
             "Man",
-            "Other",
+            "Unlisted",
+            "Trans\nWoman",
+            "Trans\nMan",
         ],
     },
     "Q36": {
@@ -370,7 +394,7 @@ DEMO = {
         "text": "What is your race/ethnicity? (Check all that apply)",
         "options": [
             "White",
-            "American Indian or Alaska Native",
+            "American Indian Or Alaska Native",
             "Asian",
             "Filipino/a",
             "Pacific Islander",
@@ -381,7 +405,26 @@ DEMO = {
         ],
         "labels": [
             "White",
-            "American Indian or Alaska Native",
+            "Amer. Indian",
+            "Asian",
+            "Filipino/a",
+            "Pac. Islander",
+            "Multiple",
+            "Black",
+            "Hisp./Latino",
+            "Prefer not\nto say",
+        ],
+    },
+}
+
+# Attitudinal questions
+attitude = {
+    "Q36": {
+        "title": "Race/Ethnicity",
+        "text": "What is your race/ethnicity? (Check all that apply)",
+        "options": [
+            "White",
+            "American Indian Or Alaska Native",
             "Asian",
             "Filipino/a",
             "Pacific Islander",
@@ -389,6 +432,17 @@ DEMO = {
             "African American/Black",
             "Hispanic/Latino/a",
             "Prefer not to say",
+        ],
+        "labels": [
+            "White",
+            "Amer. Indian",
+            "Asian",
+            "Filipino/a",
+            "Pac. Islander",
+            "Multiple",
+            "Black",
+            "Hisp./Latino",
+            "Prefer not\nto say",
         ],
     },
 }

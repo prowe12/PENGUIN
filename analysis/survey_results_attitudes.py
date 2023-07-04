@@ -11,7 +11,8 @@ import numpy as np
 import pandas as pd
 
 # My modules
-from plot_resources import add_percentages, set_colors, set_labels, get_vals
+from analysis.plot_resources import add_percentages, set_colors, set_labels
+from analysis.analysis_resources import get_vals
 
 # def add_percentages(vals, axnum):
 #     for i, v in enumerate(vals):
@@ -64,9 +65,18 @@ def combine_results(data: list[dict]):
     @params datafile  The full path to the input data file
     @params outfilepfx  Directory + filename prefix for saving the figure
     """
-    # Labels
-    comfort_labels = [
-        "Don’t Know",
+    # Answers
+    importance = [
+        "Dont Know",
+        "Not Important at All",
+        "Slightly Important",
+        "Moderately Important",
+        "Very Important",
+        "Extremely Important",
+    ]
+
+    comfort = [
+        "Dont Know",
         "Very Uncomfortable",
         "Somewhat Uncomfortable",
         "Neutral",
@@ -74,13 +84,23 @@ def combine_results(data: list[dict]):
         "Very Comfortable",
     ]
 
-    importance = [
-        "Don’t Know",
-        "Not Important at All",
-        "Slightly Important",
-        "Moderately Important",
-        "Very Important",
-        "Extremely Important",
+    # Labels: for labeling all plots
+    # comfort_labels = [
+    #     "Don't Know",
+    #     "V. Uncomfort.",
+    #     "S. Uncomfort.",
+    #     "Neutral",
+    #     "S. Comfort.",
+    #     "V. Comfort.",
+    # ]
+    # Labels: for labeling after panels only
+    comfort_labels = [
+        "Don't Know",
+        "V. Uncomfortable",
+        "S. Uncomfortable",
+        "Neutral",
+        "S. Comfortable",
+        "V. Comfortable",
     ]
 
     importance_labels = [
@@ -108,7 +128,7 @@ def combine_results(data: list[dict]):
         "cs": {
             "respbef": [],
             "respaft": [],
-            "ans": comfort_labels,
+            "ans": comfort,
             "labels": comfort_labels,
             "title": "Comfort with Rstudio",
             "rot": 45,
@@ -149,6 +169,10 @@ def combine_results(data: list[dict]):
     for dat in data:
         df = pd.read_excel(dat["datafile"], header=[0, 1], sheet_name=0)
 
+        from analysis.clean import remove_symbols
+
+        remove_symbols(df)  # Done in place
+
         # Replace with inputs and
         # Add values from Excel sheet
         keystoremove = []
@@ -179,10 +203,16 @@ def combine_results(data: list[dict]):
             org.pop(key)
 
     for key, value in org.items():
+        # TODO
+        print(key)
         if "respbef" in value:
-            org[key]["bef"] = get_vals(value["respbef"], value["ans"])
+            org[key]["bef"] = get_vals(
+                value["respbef"].squeeze(), value["ans"]
+            )
         if "respaft" in value:
-            org[key]["aft"] = get_vals(value["respaft"], value["ans"])
+            org[key]["aft"] = get_vals(
+                value["respaft"].squeeze(), value["ans"]
+            )
 
     return org
 
@@ -193,24 +223,105 @@ def makefig(org: dict, outprefix: str = "", savefigs: bool = False):
         "climateknowledge",
         "polarimport",
         "subjectknowledge",
-        "ranking",
-        "learnmore",
+        "cs",
     ]
+    # "ranking",
+    # "learnmore",
     types = {"bef": "before", "aft": "after"}
 
     # # # # # # # # # #      Figures    # # # # # # # # # # # # # #
     left1 = 0.08
     left2 = 0.58
+    # For labeling all panels
+    # bot1 = 0.83
+    # bot2 = 0.62
+    # bot3 = 0.38
+    # bot4 = 0.11
+    # plt.figure(figsize=(8, 8), num=1, clear=True)
+    # For labeling after panels only
     bot1 = 0.81
-    bot2 = 0.6
-    bot3 = 0.38
-    bot4 = 0.1
+    bot2 = 0.62
+    bot3 = 0.37
+    bot4 = 0.18
+    plt.figure(figsize=(8, 6), num=1, clear=True)
+
     left = [left1, left1, left1, left1, left2, left2, left2, left2]
     bot = [bot1, bot2, bot3, bot4, bot1, bot2, bot3, bot4]
     wid = 0.4
-    height = 0.17
+    height = 0.18
     letter = ["a) ", "b) ", "c) ", "d) ", "e) ", "f) ", "g) ", "h) "]
-    plt.figure(figsize=(8, 8), num=1, clear=True)
+    ax = [plt.subplot(4, 2, i + 1) for i in range(8)]
+    for i in range(8):
+        ax[i].set_position([left[i], bot[i], wid, height])
+
+    ytext = 70
+    ymax = 80
+
+    i = -1
+    for panel in panels:
+        if panel not in org:
+            raise ValueError("Variable missing")
+        labels = org[panel]["labels"]
+
+        typs = [x for x in types.items() if x[0] in org[panel]]
+        for typ in typs:
+            i += 1
+            resp = org[panel][typ[0]]
+            xtic = np.arange(len(resp))
+            bar1 = ax[i].bar(xtic, resp)
+            ax[i].set_ylabel("Students (%)")
+            ax[i].set_xticks([], (""))
+            set_colors(bar1)
+            title = letter[i] + org[panel]["title"] + " " + typ[1]
+            ax[i].text(-0.5, ytext, title)
+            ax[i].set_ylim([0, ymax])
+            add_percentages(resp, ax[i])
+            set_labels(bar1, labels)
+            if typ[1] == "after":
+                ax[i].set_xticks(
+                    xtic,
+                    labels,
+                    rotation=org[panel]["rot"],
+                )
+            # rotation_mode="anchor",
+            # ha="right",
+
+        # xtick = np.arange(len(after))
+        # bar2 = ax[i + 1].bar(xtick, after)
+        # ax[i + 1].set_ylabel("Respondents (%)")
+        # set_colors(bar2)
+        # ax[i + 1].text(
+        #     -0.5, ytext, "b) " + org[panel]["title"] + " \n    After"
+        # )
+        # ax[i + 1].set_xticks([], (""))
+        # ax[i + 1].set_ylim([0, ymax])
+        # add_percentages(after, ax[i + 1])
+        # set_labels(bar2, labels)
+        # plt.legend(bbox_to_anchor=(legend_left, 0.5), loc="right")
+        # ax[i + 1].set_xticks(
+        #     xtick, labels, rotation=45, ha="right", rotation_mode="anchor"
+        # )
+
+    if savefigs:
+        plt.savefig(outprefix + ".eps")
+
+    # Plots with after only
+    panels = ["ranking", "learnmore"]
+    types = {"bef": "", "aft": ""}
+
+    # # # # # # # # # #      Figures    # # # # # # # # # # # # # #
+    left1 = 0.08
+    left2 = 0.58
+    bot1 = 0.83
+    bot2 = 0.62
+    bot3 = 0.38
+    bot4 = 0.11
+    left = [left1, left1, left1, left1, left2, left2, left2, left2]
+    bot = [bot1, bot2, bot3, bot4, bot1, bot2, bot3, bot4]
+    wid = 0.4
+    height = 0.16
+    letter = ["a) ", "b) ", "c) ", "d) ", "e) ", "f) ", "g) ", "h) "]
+    plt.figure(figsize=(8, 8), num=2, clear=True)
     ax = [plt.subplot(4, 2, i + 1) for i in range(8)]
     for i in range(8):
         ax[i].set_position([left[i], bot[i], wid, height])
@@ -243,27 +354,9 @@ def makefig(org: dict, outprefix: str = "", savefigs: bool = False):
                 labels,
                 rotation=org[panel]["rot"],
             )
-            # rotation_mode="anchor",
-            # ha="right",
-
-        # xtick = np.arange(len(after))
-        # bar2 = ax[i + 1].bar(xtick, after)
-        # ax[i + 1].set_ylabel("Respondents (%)")
-        # set_colors(bar2)
-        # ax[i + 1].text(
-        #     -0.5, ytext, "b) " + org[panel]["title"] + " \n    After"
-        # )
-        # ax[i + 1].set_xticks([], (""))
-        # ax[i + 1].set_ylim([0, ymax])
-        # add_percentages(after, ax[i + 1])
-        # set_labels(bar2, labels)
-        # plt.legend(bbox_to_anchor=(legend_left, 0.5), loc="right")
-        # ax[i + 1].set_xticks(
-        #     xtick, labels, rotation=45, ha="right", rotation_mode="anchor"
-        # )
 
     if savefigs:
-        plt.savefig(outprefix + ".eps")
+        plt.savefig(outprefix + "b.eps")
 
 
 def makefigs(org: dict, outprefix: str = "", savefigs: bool = False):

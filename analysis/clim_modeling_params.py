@@ -16,13 +16,14 @@ except:
     raise ValueError()
 
 # File and question names
+dir21 = MAINDIR + "results_2021_fall/"
 DATA = [
     {
-        "pre_file": MAINDIR
-        + "results_2021_fall/PENGUIN Climate Modeling Pre-Survey Dataset.xlsx",
-        "post_file": MAINDIR
-        + "results_2021_fall/PENGUIN Climate Modeling Post-Survey Dataset_mod.xlsx",
+        "pre_file": dir21 + "climate_modeling_2021_fall_pre.xlsx",
+        "post_file": dir21 + "climate_modeling_2021_fall_post_mod.xlsx",
         "pre": {
+            "Q3": "sum",
+            "Q4": "power",
             "Q6": "pdf",
             "Q7": "Arctic_change_2021",
             "Q9": "sid",
@@ -30,6 +31,8 @@ DATA = [
             "Q11": "day",
         },
         "post": {
+            "Q3": "sum",
+            "Q4": "power",
             "Q6": "pdf",
             "Q7": "Arctic_change_2021",
             "Q27": "sid",
@@ -75,6 +78,7 @@ DATA = [
 
 AGE = "Q1"
 
+# knowledge questions
 KNOW = {
     "pdf": {
         "title": "Probability density functions",
@@ -119,7 +123,7 @@ KNOW = {
         "icorrect": 1,
     },
     "warming_region": {
-        "title": "Fastest-warming region",
+        "title": "Dataset from 2000s",
         "text": "The chart below displays two datasets from Alaska. One "
         + "refers the 1970s, and the other refers to the 2000s. Which "
         + "dataset refers to the 2000s?",
@@ -136,7 +140,7 @@ KNOW = {
         "icorrect": 0,
     },
     "jet_stream": {
-        "title": "Jet Stream",
+        "title": "Cause of Jet Stream Meander",
         "text": "Increasing north-south meanders of the Jet Stream are "
         + "thought to be due to which cause?",
         "options": [
@@ -166,31 +170,64 @@ KNOW = {
             "Not sure",
         ],
         "labels": [
-            "Warming Mar/Apr",
-            "Warming in summer",
-            "Warming summer / Cooling winter",
+            "Warming winter/spring",
+            "Warming summer/fall",
+            "Summers warmed/winters cooled",
             "No change",
+            "Not sure",
+        ],
+        "icorrect": 0,
+    },
+    # r"$\uparrow$summer/$\downarrow$winter",
+    # "Arctic_change_2022": {
+    #     "title": "Arctic climate change",
+    #     "text": "Which best describes climate change in the Arctic?",
+    #     "options": [
+    #         "Warming is mostly in March and April",
+    #         "Warming is mostly in the summer",
+    #         "Summers have warmed, but winters have cooled slightly",
+    #         "The Arctic's temperature has not significantly changed in recent decades",
+    #         "Not sure",
+    #     ],
+    #     "labels": [
+    #         "Warming Mar/Apr",
+    #         "Warming in summer",
+    #         "Warming summer / Cooling winter",
+    #         "No change",
+    #         "Not sure",
+    #     ],
+    #     "icorrect": 1,
+    # },
+    "sum": {
+        "title": "Python sum",
+        "text": "In Python, how would you print the sum of 5 and 3?",
+        "options": [
+            "result = 5+3, print(result)",
+            "print(5+3)",
+            "print(5 += 3)",
+            "Not sure",
+        ],
+        "labels": [
+            'r=5+3, print("r")',
+            "print(5+3)",
+            "print(5 += 3)",
             "Not sure",
         ],
         "icorrect": 1,
     },
-    "Arctic_change": {
-        "title": "Arctic climate change",
-        "text": "Which best describes climate change in the Arctic?",
+    "power": {
+        "title": "Python power",
+        "text": "In Python, how do you raise a value to a power?",
         "options": [
-            "Warming is mostly in March and April",
-            "Warming is mostly in the summer",
-            "Summers have warmed, but winters have cooled slightly",
-            "The Arctic's temperature has not significantly changed in recent decades",
+            "5**2",
+            "5^2",
             "Not sure",
         ],
         "labels": [
-            "Warming Mar/Apr",
-            "Warming in summer",
-            "Warming summer / Cooling winter",
-            "No change",
+            "5**2",
+            "5^2",
             "Not sure",
         ],
-        "icorrect": 1,
+        "icorrect": 0,
     },
 }

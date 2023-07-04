@@ -101,7 +101,7 @@ def remove_symbols(dfo):
     @params dfo  The input dataframe
     """
     # Remove all symbols but the following
-    dfo.replace(r"[^\w\s\-\.\,\/\(\)]|_", "", regex=True, inplace=True)
+    dfo.replace(r"[^\w\s\-\.\,\/\(\)+=\^\*]|_", "", regex=True, inplace=True)
     # Remove bad characters
     dfo.replace(r"[â€œ]", "", regex=True, inplace=True)
     dfo.replace(r"â", "", regex=True, inplace=True)
@@ -151,6 +151,24 @@ def clean_single_cm(fname: str, age: str, names: dict):
     return dfo
 
 
+def clean_single_cm_ignore_id(fname: str, age: str, names: dict):
+    """
+    Return dataframe from a survey file after cleaning
+    @param  fname  File to load in
+    @param col  Columns to keep
+    @param age  Header for column giving whether over 18
+    @param  names  Identifying questions (for matching pre and post)
+    @returns pandas dataframe
+    """
+    cols = [age] + list(names.keys())
+    dfo = load(fname)
+    dfo = getcols(dfo, cols)
+    rename(dfo, names)
+    dfo = filter_out_minors(dfo, age)
+    remove_symbols(dfo)  # Done in place
+    return dfo
+
+
 def clean_climate_modeling(prm):
     """
     Return a dataframe containing selected columns from cleaned and matched
@@ -183,7 +201,7 @@ def clean_climate_modeling(prm):
     return pd.concat(res)
 
 
-def clean(files, age, know, qpre, qpost):
+def clean(files, age, know, demo: dict, qpre, qpost):
     """
     Return a dataframe containing selected columns from cleaned and matched
     pre and post survey files
@@ -201,6 +219,9 @@ def clean(files, age, know, qpre, qpost):
     # identifying questions (to match pre/post tests)
     col_pre = [age] + list(know.keys()) + list(qpre.keys())
     col_post = [age] + list(know.keys()) + list(qpost.keys())
+
+    if demo.keys():
+        col_post += list(demo.keys())
 
     # Load and clean
     res = []
